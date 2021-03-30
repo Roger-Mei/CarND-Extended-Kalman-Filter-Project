@@ -76,13 +76,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     /**
      * TODO: Initialize the state ekf_.x_ with the first measurement.
      */
-    ekf_.x_ = VectorXd(4);
-    ekf_.x_ = measurement_pack.raw_measurements_;
-    /**
-     * TODO: Create the covariance matrix.
-     * You'll need to convert radar from polar to cartesian coordinates.
-     */
-
     // first measurement
     cout << "EKF: " << endl;
     ekf_.x_ = VectorXd(4);
@@ -106,8 +99,12 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       ekf_.x_(1) = measurement_pack.raw_measurements_(1);
     }
 
+    // Update time stamp
+    previous_timestamp_ = measurement_pack.timestamp_;
+
     // done initializing, no need to predict or update
     is_initialized_ = true;
+
     return;
   }
 
@@ -122,6 +119,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   
   // Calculate time elapse
   float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
+  
   // Updaet previous time stamp
   previous_timestamp_ = measurement_pack.timestamp_;
 
