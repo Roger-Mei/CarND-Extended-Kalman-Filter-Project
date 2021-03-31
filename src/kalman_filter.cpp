@@ -26,7 +26,7 @@ void KalmanFilter::Predict() {
   /**
    * TODO: predict the state
    */
-
+  
   x_ = F_ * x_; // Predict mean
   MatrixXd F_t = F_.transpose();
   P_ = F_ * P_ * F_t + Q_; // Predict Covariance 
@@ -94,7 +94,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   {
   y(1) += 2 * M_PI;
   }
-  
+
   MatrixXd H_t = H_.transpose();
   MatrixXd S = H_ * P_ * H_t + R_;
   MatrixXd Si = S.inverse();
